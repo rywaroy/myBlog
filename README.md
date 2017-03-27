@@ -1,18 +1,5 @@
-# public
+# 博客
 
-> A Vue.js project
+在这里表白会被人发现吗？
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-```
-
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+[点击查看我最喜欢的人](https://github.com/settings/profile)
