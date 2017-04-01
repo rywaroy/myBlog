@@ -20,13 +20,22 @@ exports.uparticle = function (req,res) {
 }
 
 exports.articlelist = function (req,res) {
-	Model.ArticleModel.find({},function(err,docs){
-		if (err) {
+    var limit = Number(req.query.limit);
+    var page = req.query.page;
+    Model.ArticleModel.find().skip((page-1)*limit).limit(limit).exec(function (err,docs) {
+        if (err) {
             console.log("error :" + err);
         } else {
-            res.send(Data(1,docs,'获取成功'))
+            Model.ArticleModel.count({},function (err,num) {
+                if(err){
+                    console.log(err)
+                }else{
+                    res.send(Data(1,{list:docs,total:num},'获取成功'))
+                }
+            })
         }
-	})
+    })
+
 }
 
 exports.articleinfo = function (req,res){
@@ -130,14 +139,23 @@ exports.comment = function (req,res){
 
 exports.getcomment = function (req,res){
 	var id = req.query.id;
-	Model.CommentModel.find({article:id},function(err,docs){
-		if (err) {
+    var limit = Number(req.query.limit);
+    var page = req.query.page;
+
+    Model.CommentModel.find({article:id}).skip((page-1)*limit).limit(limit).exec(function (err,docs) {
+        if (err) {
             console.log("error :" + err);
         } else {
-            res.send(Data(1,docs,'获取成功'))
-        }
-	})
+            Model.CommentModel.count({article:id},function (err,num) {
+                if(err){
+                    console.log(err)
+                }else{
+                    res.send(Data(1,{list:docs,total:num},'获取成功'))
+                }
+            })
 
+        }
+    })
 }
 
 exports.getup = function (req,res){

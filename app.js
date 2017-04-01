@@ -6,7 +6,8 @@ var bodyParser = require('body-parser');
 var user = require('./router/user.js');
 var host = require('./router/host.js');
 var file = require('./router/file.js');
-var article = require('./router/article.js')
+var article = require('./router/article.js');
+var question = require('./router/question.js');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -24,5 +25,8 @@ app.use(cors());
 app.use('/u', user);
 app.use('/host', host);
 app.use('/upload',file);
-app.use('/article',article)
-app.listen(3000)
+app.use('/article',article);
+app.use('/question',question);
+
+
+app.listen(3000);

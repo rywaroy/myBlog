@@ -92,11 +92,20 @@ exports.signin = function (req, res) {
 }
 
 exports.getuser = function (req,res) {
-    UserModel.find({},{phonenumber:1,token:1,vip:1,nickname:1,sex:1,creattime:1},function (err,docs) {
+    var limit = req.body.limit;
+    var page = req.body.page;
+    UserModel.find({},{phonenumber:1,token:1,vip:1,nickname:1,sex:1,creattime:1},{skip:(page-1)*limit,limit:limit},function (err,docs) {
         if(err){
            console.log(err)
         }else{
-            res.send(Data(1,docs,'获取成功'))
+            UserModel.count({},function (err,num) {
+                if(err){
+                    console.log(err)
+                }else{
+                    res.send(Data(1,{user:docs,total:num},'获取成功'))
+                }
+            })
+
         }
     })
 }

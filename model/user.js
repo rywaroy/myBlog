@@ -11,7 +11,8 @@ var UserSchema = new mongoose.Schema({
     vip: {type: Boolean, default: false},
     game1: {type: Number, default: 0},
     creattime: {type: Date, default: Date.now},
-    avatar:{type:String,default: ''}
+    avatar:{type:String,default: ''},
+    intro:{type:String,default:''}
 });
 var UserModel = mongoose.model("user", UserSchema);
 
