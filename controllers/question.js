@@ -35,7 +35,14 @@ exports.getlist = function (req, res) {
         if (err) {
             console.log(err)
         } else {
-            res.send(Data(1, docs, '获取成功'))
+            Model.QuestionModel.count({},function (err,num) {
+                if(err){
+                    console.log(err)
+                }else{
+                    res.send(Data(1, {list:docs,total:num}, '获取成功'))
+                }
+            })
+
         }
     })
 }
@@ -82,7 +89,14 @@ exports.getAnswer = function (req, res) {
         if (err) {
             console.log(err)
         } else {
-            res.send(Data(1, docs, '获取成功'))
+            Model.AnswerModel.count({},function (err,num) {
+                if(err){
+                    console.log(err)
+                }else{
+                    res.send(Data(1, {list:docs,total:num}, '获取成功'))
+                }
+            })
+
         }
     })
 }
@@ -111,16 +125,23 @@ exports.up = function (req, res) {
                             if (err) {
                                 console.log("error :" + err);
                             } else {
-                                Model.AnswerModel.update({
-                                    question: id,
-                                    _id: aid
-                                }, {$set: {isUp: true}}, function (err, doc2) {
-                                    if (err) {
+                                Model.UpQuestionModel.count({question:id,answer:aid},function (err,num){
+                                    if(err){
                                         console.log(err)
-                                    } else {
-                                        res.send(Data(1, null, '点赞成功'))
+                                    }else{
+                                        Model.AnswerModel.update({
+                                            question: id,
+                                            _id: aid
+                                        }, {$set: {isUp: true,up:num}}, function (err, doc2) {
+                                            if (err) {
+                                                console.log(err)
+                                            } else {
+                                                res.send(Data(1, null, '点赞成功'))
+                                            }
+                                        })
                                     }
                                 })
+
 
                             }
                         })
@@ -150,14 +171,20 @@ exports.down = function (req, res) {
                             if (err) {
                                 console.log(err)
                             } else {
-                                Model.AnswerModel.update({
-                                    question: id,
-                                    _id: aid
-                                }, {$set: {isUp: false}}, function (err, doc2) {
-                                    if (err) {
+                                Model.UpQuestionModel.count({question:id,answer:aid},function (err,num) {
+                                    if(err){
                                         console.log(err)
-                                    } else {
-                                        res.send(Data(1, null, '点赞取消'))
+                                    }else{
+                                        Model.AnswerModel.update({
+                                            question: id,
+                                            _id: aid
+                                        }, {$set: {isUp: false,up:num}}, function (err, doc2) {
+                                            if (err) {
+                                                console.log(err)
+                                            } else {
+                                                res.send(Data(1, null, '点赞取消'))
+                                            }
+                                        })
                                     }
                                 })
                             }
@@ -170,3 +197,28 @@ exports.down = function (req, res) {
         }
     })
 }
+
+exports.deleteQuestion = function (req,res) {
+    var id = req.body.id;
+    Model.QuestionModel.remove({_id:id},function (err) {
+        if(err){
+            console.log(err)
+        }else{
+            res.send(Data(1,null,'删除成功'))
+        }
+    })
+}
+
+exports.deleteAnswer = function (req,res) {
+    var id = req.body.id;
+    var aid = req.body.aid;
+    Model.AnswerModel.remove({question:id,_id:aid},function (err) {
+        if(err){
+            console.log(err)
+        }else{
+            res.send(Data(1,null,'删除成功'))
+        }
+    })
+}
+
+

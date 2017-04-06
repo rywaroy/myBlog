@@ -19,6 +19,19 @@ exports.uparticle = function (req,res) {
 	})
 }
 
+exports.updatearticle = function (req,res) {
+    var title = req.body.title;
+    var content = req.body.content;
+    var id =req.body.id;
+    Model.ArticleModel.update({_id:id},{$set:{title:title,content:content,update:new Date()}},function (err) {
+		if(err){
+			console.log(err)
+		}else{
+			res.send(Data(1,null,'更新成功'))
+		}
+    })
+}
+
 exports.articlelist = function (req,res) {
     var limit = Number(req.query.limit);
     var page = req.query.page;

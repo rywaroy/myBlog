@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 var ArticleSchema = new mongoose.Schema({
     title:String,
     create:{type:Date,default:Date.now},
+    update:Date,
     content:String,
     up:{type:Number,default:0},
     watch:{type:Number,default:0},

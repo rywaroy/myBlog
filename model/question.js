@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 var QuestionSchema = new Schema({
     user:Object,
     content:String,
-    title:String
+    title:String,
+    createTime:{type:Date,default:Date.now},
 });
 var AnswerSchema = new Schema({
     user:Object,

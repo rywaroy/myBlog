@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div class="add-btn"><el-button @click="add">添加文章</el-button></div>
         <el-table
                 :data="tableData"
                 border
@@ -9,29 +10,25 @@
                     label="id">
             </el-table-column>
             <el-table-column
-                    prop="phonenumber"
-                    label="手机号码">
+                    prop="title"
+                    label="标题">
             </el-table-column>
             <el-table-column
-                    prop="creattime"
+                    prop="create"
                     label="创建时间">
             </el-table-column>
             <el-table-column
-                    prop="sex"
-                    label="性别">
+                    prop="up"
+                    label="点赞数">
             </el-table-column>
             <el-table-column
-                    prop="nickname"
-                    label="昵称">
-            </el-table-column>
-            <el-table-column
-                    prop="isvip"
-                    label="vip">
+                    prop="watch"
+                    label="访问量">
             </el-table-column>
             <el-table-column label="操作">
                 <template scope="scope">
                     <el-button type="text" @click="deletes(scope.$index)" size="small">删除</el-button>
-                    <el-button type="text" @click="vip(scope.$index)" size="small">设为vip</el-button>
+                    <el-button type="text" @click="check(scope.$index)" size="small">查看</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -44,50 +41,42 @@
     </div>
 </template>
 <style>
-    .el-pagination{
-        text-align: center;
-        margin-top: 10px;
+    .add-btn {
+        margin: 20px;
     }
 </style>
 <script>
     import plus from '../public.js';
     import axios from 'axios';
-    export default{
+    export default {
         data(){
             return {
                 tableData: [],
-                page:1,
-                total:'',
-                limit:10
+                page: 1,
+                total: null,
+                limit: 10
             }
         },
         activated(){
-            this.render();
+            this.ajaxlist();
         },
         methods: {
-            render(){
+            ajaxlist(){
                 var _this = this;
-                axios.post(plus.path + '/u/getuser', {
-                    token: window.localStorage.getItem('token'),
-                    page:_this.page,
-                    limit:_this.limit
-                }).then(function (res) {
-                    if (res.data.state == 1) {
-                        for(var i = 0;i<res.data.data.user.length;i++){
-                            var datas = res.data.data.user[i];
-                            if(datas.vip){
-                                datas.isvip = '是'
-                            }else{
-                                datas.isvip = '否'
-                            }
-                        }
-                        _this.tableData = res.data.data.user;
-                        _this.total = res.data.data.total;
+                axios.get(plus.path + '/article/list', {
+                    params: {
+                        page: _this.page,
+                        limit: _this.limit
+                    }
+                }).then(function (data) {
+                    if (data.data.state == 1) {
+                        _this.tableData = data.data.data.list;
+                        _this.total = data.data.data.total;
                     } else {
                         if (res.data.state == '401') {
                             _this.$router.push({path: '/adminlogin'})
                         } else {
-                            console.log(res.msg)
+                            console.log(res.data.msg)
                         }
                     }
                 })
@@ -99,13 +88,13 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    axios.post(plus.path + '/u/deleteuser',{
-                        id:_this.tableData[index]._id,
+                    axios.post(plus.path + '/article/delete/article', {
+                        id: _this.tableData[index]._id,
                         token: window.localStorage.getItem('token')
                     }).then(function (res) {
                         if (res.data.state == 1) {
                             _this.$message('删除成功');
-                            _this.render();
+                            _this.ajaxlist()
                         } else {
                             if (res.data.state == '401') {
                                 _this.$router.push({path: '/adminlogin'})
@@ -113,7 +102,7 @@
                                 console.log(res.data.msg)
                             }
                         }
-                    });
+                    })
                     this.$message({
                         type: 'success',
                         message: '删除成功!'
@@ -125,28 +114,17 @@
                     });
                 });
 
+
             },
-            vip(index){
-                var _this = this;
-                axios.post(plus.path + '/u/vip',{
-                    id:_this.tableData[index]._id,
-                    token: window.localStorage.getItem('token')
-                }).then(function (res) {
-                    if (res.data.state == 1) {
-                        _this.$message('设置成功');
-                        _this.render();
-                    } else {
-                        if (res.data.state == '401') {
-                            _this.$router.push({path: '/adminlogin'})
-                        } else {
-                            console.log(res.msg)
-                        }
-                    }
-                })
+            check(index){
+                this.$router.push({path: '/home/articleinfo', query: {id: this.tableData[index]._id}})
             },
             handleCurrentChange(val){
                 this.page = val;
-                this.render()
+                this.ajaxlist()
+            },
+            add(){
+                this.$router.push({path: '/home/article'})
             }
         }
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="host-main">
         <div class="host-box">
-            <div class="host-ava mb"><img :src="avatar" alt="" width="100%" height="100%"/><input @change="upload()" type="file" name="fileToUpload" id="fileToUpload" class="fileupload" /></div>
+            <div class="host-ava mb"><img :src="avatar" alt="" width="100%" height="100%"/><input @change="upload($event)" type="file" name="fileToUpload" id="fileToUpload" class="fileupload" /></div>
             <el-input v-model="nickname" placeholder="请输入昵称" class="mb"></el-input>
             <el-input
                     placeholder="请输入内容"
@@ -53,7 +53,6 @@
 <script>
     import plus from '../public.js';
     import axios from 'axios';
-    import $ from 'jquery';
     export default{
         data(){
             return {
@@ -106,30 +105,23 @@
                     }
                 })
             },
-            upload(){
+            upload(e){
                 var _this = this;
-                if ($('.fileupload').val().length) {
-                    var fileName = $('.fileupload').val();
+                if (e.currentTarget.value.length) {
+                    var fileName = e.currentTarget.value;
                     var extension = fileName.substring(fileName.lastIndexOf('.'), fileName.length).toLowerCase();
                     if (extension == ".jpg" || extension == ".png" || extension == '.jpeg') {
                         var data = new FormData();
-                        data.append('upload', $('#fileToUpload')[0].files[0]);
-                        $.ajax({
-                            url: plus.path + '/upload/host',
-                            type: 'POST',
-                            data: data,
-                            cache: false,
-                            contentType: false, //不可缺参数
-                            processData: false, //不可缺参数
-                            success: function(data) {
-                                if (data.state == 1){
-                                    _this.avatar = data.data.url;
-                                }
-                            },
-                            error: function() {
-                                console.log('error');
+                        data.append('upload', e.currentTarget.files[0]);
+                        axios.post(plus.path + '/upload/host',data,{
+                            header:{
+                                'Content-Type':'multipart/form-data'
                             }
-                        });
+                        }).then(function (data) {
+                            if (data.data.state == 1){
+                                _this.avatar = data.data.data.url;
+                            }
+                        })
                     }
                 }
             }

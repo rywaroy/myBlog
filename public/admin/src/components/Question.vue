@@ -9,29 +9,25 @@
                     label="id">
             </el-table-column>
             <el-table-column
-                    prop="phonenumber"
-                    label="手机号码">
+                    prop="user.nickname"
+                    label="提问者">
             </el-table-column>
             <el-table-column
-                    prop="creattime"
+                    prop="createTime"
                     label="创建时间">
             </el-table-column>
             <el-table-column
-                    prop="sex"
-                    label="性别">
+                    prop="title"
+                    label="问题">
             </el-table-column>
             <el-table-column
-                    prop="nickname"
-                    label="昵称">
-            </el-table-column>
-            <el-table-column
-                    prop="isvip"
-                    label="vip">
+                    prop="content"
+                    label="内容">
             </el-table-column>
             <el-table-column label="操作">
                 <template scope="scope">
                     <el-button type="text" @click="deletes(scope.$index)" size="small">删除</el-button>
-                    <el-button type="text" @click="vip(scope.$index)" size="small">设为vip</el-button>
+                    <el-button type="text" @click="check(scope.$index)" size="small">查看</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -43,12 +39,6 @@
         </el-pagination>
     </div>
 </template>
-<style>
-    .el-pagination{
-        text-align: center;
-        margin-top: 10px;
-    }
-</style>
 <script>
     import plus from '../public.js';
     import axios from 'axios';
@@ -61,36 +51,26 @@
                 limit:10
             }
         },
-        activated(){
-            this.render();
-        },
         methods: {
-            render(){
+            questionList(){
                 var _this = this;
-                axios.post(plus.path + '/u/getuser', {
-                    token: window.localStorage.getItem('token'),
-                    page:_this.page,
-                    limit:_this.limit
+                axios.get(plus.path + '/question/getlist',{
+                    params:{
+                        page:_this.page,
+                        limit:_this.limit
+                    }
                 }).then(function (res) {
-                    if (res.data.state == 1) {
-                        for(var i = 0;i<res.data.data.user.length;i++){
-                            var datas = res.data.data.user[i];
-                            if(datas.vip){
-                                datas.isvip = '是'
-                            }else{
-                                datas.isvip = '否'
+                        if (res.data.state == 1) {
+                            _this.tableData = res.data.data.list;
+                            _this.total = res.data.data.total;
+                        }else {
+                            if (res.data.state == '401') {
+                                _this.$router.push({path: '/adminlogin'})
+                            } else {
+                                console.log(res.data.msg)
                             }
                         }
-                        _this.tableData = res.data.data.user;
-                        _this.total = res.data.data.total;
-                    } else {
-                        if (res.data.state == '401') {
-                            _this.$router.push({path: '/adminlogin'})
-                        } else {
-                            console.log(res.msg)
-                        }
-                    }
-                })
+                    })
             },
             deletes(index){
                 var _this = this;
@@ -99,13 +79,13 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    axios.post(plus.path + '/u/deleteuser',{
-                        id:_this.tableData[index]._id,
+                    axios.post(plus.path + '/question/delete/question', {
+                        id: _this.tableData[index]._id,
                         token: window.localStorage.getItem('token')
                     }).then(function (res) {
                         if (res.data.state == 1) {
                             _this.$message('删除成功');
-                            _this.render();
+                            _this.questionList()
                         } else {
                             if (res.data.state == '401') {
                                 _this.$router.push({path: '/adminlogin'})
@@ -113,7 +93,7 @@
                                 console.log(res.data.msg)
                             }
                         }
-                    });
+                    })
                     this.$message({
                         type: 'success',
                         message: '删除成功!'
@@ -124,30 +104,17 @@
                         message: '已取消删除'
                     });
                 });
-
             },
-            vip(index){
-                var _this = this;
-                axios.post(plus.path + '/u/vip',{
-                    id:_this.tableData[index]._id,
-                    token: window.localStorage.getItem('token')
-                }).then(function (res) {
-                    if (res.data.state == 1) {
-                        _this.$message('设置成功');
-                        _this.render();
-                    } else {
-                        if (res.data.state == '401') {
-                            _this.$router.push({path: '/adminlogin'})
-                        } else {
-                            console.log(res.msg)
-                        }
-                    }
-                })
+            check(index){
+                this.$router.push({path: '/home/questioninfo', query: {id: this.tableData[index]._id}})
             },
             handleCurrentChange(val){
                 this.page = val;
-                this.render()
+                this.questionList()
             }
+        },
+        activated(){
+            this.questionList()
         }
     }
 </script>

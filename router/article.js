@@ -7,6 +7,8 @@ var App = require('../controllers/app.js');
 
 ArticleRouter.post('/publish',App.hosttoken,Article.uparticle);
 
+ArticleRouter.post('/update',App.hosttoken,Article.updatearticle);
+
 ArticleRouter.get('/list',Article.articlelist);
 
 ArticleRouter.get('/info',Article.articleinfo);

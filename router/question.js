@@ -18,4 +18,9 @@ QuestionRouter.post('/up',App.token,Question.up);
 
 QuestionRouter.post('/down',App.token,Question.down);
 
+QuestionRouter.post('/delete/question',App.hosttoken,Question.deleteQuestion);
+
+QuestionRouter.post('/delete/answer',App.hosttoken,Question.deleteAnswer);
+
+
 module.exports = QuestionRouter;

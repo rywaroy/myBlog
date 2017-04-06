@@ -91,7 +91,7 @@ exports.signin = function (req, res) {
 }
 
 exports.gethost = function (req,res) {
-    HostModel.findOne({},function (err,doc) {
+    HostModel.findOne({},{avatar:1,nickname:1,laji:1,sex:1,intro:1},function (err,doc) {
         if (err){
             console.log(err)
         }else{

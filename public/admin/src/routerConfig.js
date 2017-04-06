@@ -6,6 +6,12 @@ import AdminLogin from './components/AdminLogin.vue';
 import Home from './components/Home.vue';
 import UserList from './components/UserList.vue';
 import HostInfo from './components/HostInfo.vue';
+import ArticleList from './components/ArticleList.vue';
+import ArticleInfo from './components/ArticleInfo.vue';
+import Question from './components/Question.vue';
+import QuestionInfo from './components/QuestionInfo.vue';
+import Article from './components/Aritcle.vue';
+import Message from './components/Message.vue';
 export default [
     { path: '/', redirect: '/home/hostinfo' },
     {
@@ -23,6 +29,30 @@ export default [
             {
                 path:'hostinfo',
                 component:HostInfo
+            },
+            {
+                path:'articlelist',
+                component:ArticleList
+            },
+            {
+                path:'articleinfo',
+                component:ArticleInfo
+            },
+            {
+                path:'question',
+                component:Question
+            },
+            {
+                path:'questioninfo',
+                component:QuestionInfo
+            },
+            {
+                path:'article',
+                component:Article
+            },
+            {
+                path:'message',
+                component:Message
             }
         ]
     }

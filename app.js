@@ -8,6 +8,8 @@ var host = require('./router/host.js');
 var file = require('./router/file.js');
 var article = require('./router/article.js');
 var question = require('./router/question.js');
+var message = require('./router/message.js');
+
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -27,6 +29,6 @@ app.use('/host', host);
 app.use('/upload',file);
 app.use('/article',article);
 app.use('/question',question);
-
+app.use('/message',message);
 
 app.listen(3000);
