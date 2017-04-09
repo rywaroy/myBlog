@@ -9,12 +9,14 @@ var file = require('./router/file.js');
 var article = require('./router/article.js');
 var question = require('./router/question.js');
 var message = require('./router/message.js');
+var impression = require('./router/impression.js');
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 var mongoose = require('mongoose');
 var db = mongoose.connect("mongodb://localhost/test1");
+// var db = mongoose.connect("mongodb://AccessKeyID:195d0fc9cb9a4b2692de7e7bffae234f@localhost:8908/blog");
 db.connection.on("error", function (error) {
     console.log("数据库连接失败：" + error);
 });
@@ -30,5 +32,6 @@ app.use('/upload',file);
 app.use('/article',article);
 app.use('/question',question);
 app.use('/message',message);
+app.use('/impression',impression);
 
 app.listen(3000);

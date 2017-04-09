@@ -7,6 +7,7 @@
                 <el-menu-item index="3" @click="go('articlelist')">文章列表</el-menu-item>
                 <el-menu-item index="4" @click="go('question')">问答区</el-menu-item>
                 <el-menu-item index="5" @click="go('message')">留言板</el-menu-item>
+                <el-menu-item index="6" @click="go('impression')">好友印象</el-menu-item>
             </el-menu>
         </el-col>
         <div class="el-col-20">

@@ -12,6 +12,7 @@ import Question from './components/Question.vue';
 import QuestionInfo from './components/QuestionInfo.vue';
 import Article from './components/Aritcle.vue';
 import Message from './components/Message.vue';
+import Impression from './components/Impression.vue';
 export default [
     { path: '/', redirect: '/home/hostinfo' },
     {
@@ -53,6 +54,10 @@ export default [
             {
                 path:'message',
                 component:Message
+            },
+            {
+                path:'impression',
+                component:Impression
             }
         ]
     }

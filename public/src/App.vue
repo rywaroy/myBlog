@@ -1,8 +1,8 @@
 <template>
     <div id="app" class="app">
         <blog-menu></blog-menu>
-        <div id="main" class="main" @click="tab">
-            <div class="mask"></div>
+        <div id="main" class="main">
+            <div class="mask" @click="tab"></div>
             <keep-alive>
                 <router-view></router-view>
             </keep-alive>
@@ -12,6 +12,7 @@
 <script>
     import Menu from './components/Menu.vue';
     import plus from './public.js';
+
     export default{
         components:{
             'blog-menu':Menu

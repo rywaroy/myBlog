@@ -7,13 +7,17 @@
                     <div class="home-avatar"><img src="../assets/img/host_avatar.png" alt="" width="100%" height="100%"/></div>
                     <div class="home-info-right">
                         <div class="home-name">{{item.nickname}}</div>
-                        <div class="home-sex">男</div>
+
                         <div class="home-intro">{{item.intro}}</div>
                     </div>
 
                 </div>
                 <div class="home-list">
-                    <home-list></home-list>
+                    <home-list title="性别" content="男"></home-list>
+                    <home-list title="偶像" content="周杰伦、韩寒"></home-list>
+                    <home-list title="出生年月" content="1994-03-02"></home-list>
+                    <home-list title="爱好" content="睡觉"></home-list>
+                    <home-impression></home-impression>
                 </div>
             </div>
 
@@ -64,14 +68,9 @@
     .home-name{
         font-size: .3rem;
     }
-    .home-sex{
-        font-size: .24rem;
-        color: #999;
-        margin-top: .05rem;
-    }
     .home-intro{
         font-size: .24rem;
-        margin-top: .05rem;
+        margin-top: .2rem;
         color: #666;
     }
     .home-list{
@@ -86,11 +85,12 @@
     }
 </style>
 <script>
-    import Header from './Header.vue';
+
     import axios from 'axios';
     import plus from '../public.js';
     import { Toast } from 'mint-ui';
-    import HomeList from './HomeList.vue'
+    import HomeList from './HomeList.vue';
+    import Impression from './Impression.vue';
     export default{
         data(){
             return{
@@ -98,8 +98,9 @@
             }
         },
         components: {
-            'blog-header': Header,
-            'home-list':HomeList
+
+            'home-list':HomeList,
+            'home-impression':Impression
         },
         activated(){
             this.info();
