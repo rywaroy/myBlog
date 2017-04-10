@@ -23,6 +23,11 @@
                 document.getElementById('main').style.webkitTransform = "translate3d(0px, 0px, 0px) scale(1)";
                 document.querySelector('.mask').style.display = 'none';
             }
+        },
+        mounted(){
+//            document.body.addEventListener('touchmove', function (event) {
+//                event.preventDefault();
+//            }, false);
         }
     }
 

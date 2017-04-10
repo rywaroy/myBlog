@@ -1,24 +1,21 @@
 <template>
-    <!--<div>-->
-        <!--<blog-header title="文章"></blog-header>-->
-        <!--<div class="blog-body article-box">-->
-            <!---->
-        <!--</div>-->
-    <!--</div>-->
-
-    <mt-loadmore :top-method="loadTop" :distanceIndex="num" :autoFill="auto" :bottom-all-loaded="allLoaded" :bottom-method="loadBottom" ref="loadmore">
-        <ul class="article-ul">
-            <li v-for="list in list" class="article-li">
-                <div class="article-title">{{list.title}}</div>
-                <div class="article-info">
-                    <div class="article-time">{{list.create}}</div>
-                    <div class="article-watch">{{list.watch}}人浏览</div>
-                    <div class="article-up">{{list.up}}人点赞</div>
-                </div>
-            </li>
-        </ul>
-    </mt-loadmore>
-
+    <div>
+        <blog-header title="文章"></blog-header>
+        <div class="blog-body article-box">
+            <mt-loadmore :top-method="loadTop" :distanceIndex="num" :autoFill="auto" :bottom-all-loaded="allLoaded" :bottom-method="loadBottom" ref="loadmore">
+                <ul class="article-ul">
+                    <li v-for="list in list" class="article-li">
+                        <div class="article-title">{{list.title}}</div>
+                        <div class="article-info">
+                            <div class="article-time">{{list.create}}</div>
+                            <div class="article-watch">{{list.watch}}人浏览</div>
+                            <div class="article-up">{{list.up}}人点赞</div>
+                        </div>
+                    </li>
+                </ul>
+            </mt-loadmore>
+        </div>
+    </div>
     <!--<div class="article-main">-->
         <!--<blog-header title="文章"></blog-header>-->
     <!---->
@@ -28,7 +25,6 @@
     .article-li{
         padding: .25rem;
         border-bottom: 1px solid #ccc;
-        height: 3rem;
     }
     .article-ul{
         background: #fff;
@@ -47,6 +43,7 @@
         left: 0;
         width: 100%;
         padding-top: 0;
+        overflow: scroll;
     }
     .article-info{
         display: flex;
@@ -60,10 +57,6 @@
     .article-watch{
         margin-right: .2rem;
     }
-    .article-main{
-        padding-top: 1.2rem;
-    }
-
 </style>
 <script>
     import plus from '../public.js';
@@ -73,15 +66,15 @@
         data(){
             return {
                 list: [],
-                page: 0,
-                limit: 6,
-                auto:true,
+                page: 1,
+                limit: 10,
+                auto:false,
                 allLoaded:false,
                 num:1
             }
         },
         mounted(){
-            //this.getArticleList('top');
+            this.getArticleList('top');
         },
         methods: {
             getArticleList(type){
@@ -99,13 +92,14 @@
                         if(type == 'top'){
                             _this.list = res.data.data.list;
                             _this.$refs.loadmore.onTopLoaded();
+                            _this.allLoaded = false;
                         }else{
                             if(res.data.data.list == 0){
                                 _this.allLoaded = true;
                             }else{
                                 _this.list = _this.list.concat(res.data.data.list);
                             }
-
+                            _this.$refs.loadmore.onBottomLoaded();
                         }
 
                     }else{

@@ -1,5 +1,5 @@
 <template>
-    <header :class="styles?'':'bgfff'">
+    <header :class="[styles?'':'bgfff',pos?'':'fixed']">
         <div :class="['menuBtn',styles?'wt':'']" @click.stop="tab()"></div>
         <h1 v-if="!styles">{{title}}</h1>
         <div class="blog-header-right"><span v-if="headerRight" @click="func">{{headerRight}}</span></div>
@@ -13,11 +13,13 @@
         justify-content: space-between;
         align-items: center;
         padding: 0 .25rem 0 .25rem;
+        z-index: 10;
+    }
+    header.fixed{
         position: fixed;
         left: 0;
         width: 100%;
         top: 0;
-        z-index: 10;
     }
     .bgfff{
         background: #fff;
@@ -43,7 +45,7 @@
 </style>
 <script>
     export default{
-        props:['headerRight','func','styles','title'],
+        props:['headerRight','func','styles','title','pos'],
         methods:{
             tab(){
                 var w = document.documentElement.clientWidth*0.7;
