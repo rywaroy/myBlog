@@ -5,7 +5,7 @@
         <div class="blog-header-right"><span v-if="headerRight" @click="func">{{headerRight}}</span></div>
     </header>
 </template>
-<style scpoed>
+<style>
     header{
         box-sizing: border-box;
         height: 1rem;

@@ -9,7 +9,8 @@ exports.uparticle = function (req,res) {
 	var content = req.body.content;
 	var ArticleEntity = new Model.ArticleModel({
 		title:title,
-		content:content
+		content:content,
+        create:Date.now()
 	}).save(function(err,doc){
 		if (err) {
             console.log("error :" + err);
@@ -84,7 +85,7 @@ exports.articleup = function(req,res){
 				if(err){
 					console.log("error :" + err);
 				}else{
-					console.log(doc2)
+					//console.log(doc2)
 					if(doc2){
 						res.send(Data(0,null,'已经点过赞'));
 					}else{
@@ -137,7 +138,8 @@ exports.comment = function (req,res){
 		nickname:user.nickname,
 		vip:user.vip,
 		avatar:user.avatar,
-		image:image
+		image:image,
+		creat:Date.now()
 	}).save(function(err,doc){
 		if (err) {
             console.log("error :" + err);
@@ -209,7 +211,7 @@ exports.respon = function (req,res){
 					          	if(err){
 									console.log("error :" + err);
 					          	}else{
-					          		res.send(Data(1,null,'回复成功'))
+					          		res.send(Data(1,data,'回复成功'))
 					          	}
 					          })
 					        }
@@ -221,7 +223,7 @@ exports.respon = function (req,res){
 				          	if(err){
 								console.log("error :" + err);
 				          	}else{
-				          		res.send(Data(1,null,'回复成功'))
+				          		res.send(Data(1,data,'回复成功'))
 				          	}
 				          })
 				        }

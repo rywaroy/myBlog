@@ -4,14 +4,6 @@
         <div class="blog-body article-box">
             <mt-loadmore :top-method="loadTop" :distanceIndex="num" :autoFill="auto" :bottom-all-loaded="allLoaded" :bottom-method="loadBottom" ref="loadmore">
                 <ul class="article-ul">
-                    <!--<li v-for="list in list" class="article-li">-->
-                        <!--<div class="article-title">{{list.title}}</div>-->
-                        <!--<div class="article-info">-->
-                            <!--<div class="article-time">{{list.create}}</div>-->
-                            <!--<div class="article-watch">{{list.watch}}人浏览</div>-->
-                            <!--<div class="article-up">{{list.up}}人点赞</div>-->
-                        <!--</div>-->
-                    <!--</li>-->
                     <router-link :to="{path:'articleinfo',query:{id:list._id}}" tag="li"  v-for="list in list" class="article-li">
                         <div class="article-title">{{list.title}}</div>
                         <div class="article-info">
@@ -29,7 +21,7 @@
     <!---->
     <!--</div>-->
 </template>
-<style scoped>
+<style>
     .article-li{
         padding: .25rem;
         border-bottom: 1px solid #ccc;
@@ -52,6 +44,7 @@
         width: 100%;
         padding-top: 0;
         overflow: scroll;
+        -webkit-overflow-scrolling: touch;
     }
     .article-info{
         display: flex;
@@ -78,7 +71,7 @@
                 limit: 10,
                 auto:false,
                 allLoaded:false,
-                num:1
+                num:2
             }
         },
         mounted(){
@@ -94,9 +87,6 @@
                     }
                 }).then(function (res) {
                     if (res.data.state == 1) {
-//                        for(var i in res.data.data){
-//                            var datas = res.data.data[i];
-//                        }
                         if(type == 'top'){
                             _this.list = res.data.data.list;
                             _this.$refs.loadmore.onTopLoaded();
@@ -109,7 +99,6 @@
                             }
                             _this.$refs.loadmore.onBottomLoaded();
                         }
-
                     }else{
                         Toast(res.data.msg)
                     }

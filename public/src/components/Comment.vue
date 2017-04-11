@@ -95,7 +95,24 @@
         },
         methods: {
             publish(){
-
+                if(!this.content && !this.img){
+                    Toast('请输入评论内容');
+                    return;
+                }
+                var _this = this;
+                axios.post(plus.path + '/article/comment',{
+                    id:_this.$route.query.id,
+                    token:window.localStorage.getItem('token'),
+                    content:_this.content,
+                    image:_this.img
+                }).then(function (res) {
+                    if(res.data.state == 1){
+                        Toast('评论成功');
+                        _this.$router.push({path:'/articleinfo',query:{id:_this.$route.query.id}});
+                        _this.content = '';
+                        _this.img = '';
+                    }
+                })
             },
             write(){
                 this.number = this.content.length;

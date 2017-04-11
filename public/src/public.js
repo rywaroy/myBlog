@@ -1,7 +1,7 @@
 
 var plus = {};
-// plus.path = 'http://192.168.31.156:3000';
-plus.path = 'http://localhost:3000';
+plus.path = 'http://192.168.31.156:3000';
+// plus.path = 'http://localhost:3000';
 
 plus.back = function () {
     document.querySelector('.menu').classList.remove('show');
