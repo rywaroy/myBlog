@@ -23,9 +23,10 @@
     }
     .bgfff{
         background: #fff;
+        border-bottom: 1px solid #ccc;
     }
     .menuBtn{
-        width: .6rem;
+        width: 1.2rem;
         height: .6rem;
         background: url("../assets/img/menu.png") no-repeat;
         background-size: contain;
@@ -40,7 +41,8 @@
     .blog-header-right{
         color: #007aff;
         font-size: .3rem;
-        width: .6rem;
+        width: 1.2rem;
+        text-align: right;
     }
 </style>
 <script>

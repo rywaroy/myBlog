@@ -4,14 +4,22 @@
         <div class="blog-body article-box">
             <mt-loadmore :top-method="loadTop" :distanceIndex="num" :autoFill="auto" :bottom-all-loaded="allLoaded" :bottom-method="loadBottom" ref="loadmore">
                 <ul class="article-ul">
-                    <li v-for="list in list" class="article-li">
+                    <!--<li v-for="list in list" class="article-li">-->
+                        <!--<div class="article-title">{{list.title}}</div>-->
+                        <!--<div class="article-info">-->
+                            <!--<div class="article-time">{{list.create}}</div>-->
+                            <!--<div class="article-watch">{{list.watch}}人浏览</div>-->
+                            <!--<div class="article-up">{{list.up}}人点赞</div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <router-link :to="{path:'articleinfo',query:{id:list._id}}" tag="li"  v-for="list in list" class="article-li">
                         <div class="article-title">{{list.title}}</div>
                         <div class="article-info">
                             <div class="article-time">{{list.create}}</div>
                             <div class="article-watch">{{list.watch}}人浏览</div>
                             <div class="article-up">{{list.up}}人点赞</div>
                         </div>
-                    </li>
+                    </router-link>
                 </ul>
             </mt-loadmore>
         </div>

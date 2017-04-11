@@ -57,7 +57,9 @@ exports.articleinfo = function (req,res){
 		if (err) {
             console.log("error :" + err);
         } else {
+			console.log(doc)
 			var num = doc.watch;
+
 			num++;
 			Model.ArticleModel.update({_id:id},{$set:{watch:num}},function (err) {
 				if(err){
