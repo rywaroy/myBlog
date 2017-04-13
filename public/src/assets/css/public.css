@@ -93,3 +93,36 @@ a:visited {
 .blog-body{
     padding-top: 1rem;
 }
+
+
+div.innerPrompt{
+    padding: 0.2rem;
+}
+div.innerPrompt > p:first-of-type{
+    margin-top: .7rem;
+}
+div.innerPrompt > div{
+    position: absolute;
+    left:0;
+    bottom: 0;
+    display: -webkit-box;
+    width: 100%;
+    border-bottom-right-radius: 10px;
+
+}
+div.innerPrompt > div > button{
+    display: block;
+    -webkit-box-flex: 1;
+    background-color: #fff;
+    border-top: 1px solid #bbb;
+    height: 0.8rem;
+}
+div.innerPrompt > div > button:last-child{
+    border-bottom-right-radius: 10px;
+    color: #777;
+}
+div.innerPrompt > div > button:first-child{
+    border-bottom-left-radius: 10px;
+    border-right: 1px solid #bbb;
+    color: #007aff;
+}

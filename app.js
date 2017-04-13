@@ -15,6 +15,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 var db = mongoose.connect("mongodb://localhost/test1");
 // var db = mongoose.connect("mongodb://AccessKeyID:195d0fc9cb9a4b2692de7e7bffae234f@localhost:8908/blog");
 db.connection.on("error", function (error) {

@@ -13,13 +13,12 @@
                             <div class="comment-li-img" v-if="list.image"><img :src="list.image" alt="" width="100%"/></div>
                             <div class="comment-reply-box" v-if="list.child.length != 0">
                                 <ul>
-                                    <li class="comment-reply-li" v-for="(child,index2) in list.child" @click="replyPersonal(index,index2)" v-show="index2 < 4 || list.childshow == 1">{{child.user}} <span v-if="child.re_user">回复 {{child.re_user}}</span> : {{child.content}}</li>
+                                    <li class="comment-reply-li" v-for="(child,index2) in list.child" @click="replyPersonal(index,index2,$event)" v-show="index2 < 4 || list.childshow == 1">
+                                        {{child.user}} <span v-if="child.re_user">回复 {{child.re_user}}</span> : {{child.content}}</li>
                                 </ul>
                                 <div class="comment-check" v-if="list.child.length >4" @click="open(index,$event)">查看全部评论</div>
                             </div>
                         </div>
-
-                        <!--<div class="comment-li-up">{{list.up}}</div>-->
                         <div class="comment-li-reply" @click="reply(index)">回复</div>
                     </li>
                 </ul>
@@ -88,22 +87,6 @@
         width: 2rem;
         margin-top: .2rem;
     }
-    .comment-li-up{
-        padding-left: .7rem;
-        height: .5rem;
-        position: absolute;
-        right: .3rem;
-        top: .2rem;
-        background: url("../assets/img/up.png") no-repeat center;
-        background-size: .32rem .32rem;
-        line-height: .5rem;
-        color: #ccc;
-    }
-    .comment-li-up.uped{
-        color: #E47833;
-        background: url("../assets/img/uped.png") no-repeat center;
-        background-size: .32rem .32rem;
-    }
     .comment-li-reply{
         position: absolute;
         font-size: .3rem;
@@ -139,6 +122,9 @@
         font-size: .28rem;
         line-height: .4rem;
         color: #666;
+    }
+    .comment-reply-li.active{
+        background: #ccc;
     }
     .comment-check{
         font-size: .3rem;
@@ -226,7 +212,12 @@
                     document.querySelector('.comment-reply-input').focus();
                 })
             },
-            replyPersonal(index,index2){
+            replyPersonal(index,index2,e){
+                e.currentTarget.classList.add('active');
+                var target = e.currentTarget;
+                setTimeout(function () {
+                    target.classList.remove('active');
+                },200);
                 this.commentIndex = index;
                 this.replyShow = true;
                 this.replyid = this.list[index]._id;

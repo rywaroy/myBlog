@@ -15,5 +15,8 @@
     "formidable": "^1.1.1",
     "mongoose": "^4.9.0",
     "uuid": "^3.0.1"
+  },
+  "dependencies": {
+    "zhihu-particle": "^0.0.9"
   }
 }

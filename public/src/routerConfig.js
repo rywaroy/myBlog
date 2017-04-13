@@ -5,6 +5,7 @@ import Register from './components/Register.vue';
 import ArticleInfo from './components/ArticleInfo.vue';
 import CommentList from './components/CommentList.vue';
 import Comment from './components/Comment.vue';
+import Game from './components/Game.vue';
 export default[
     {
         path:'/',
@@ -37,5 +38,9 @@ export default[
     {
         path:'/comment',
         component:Comment
+    },
+    {
+        path:'/game',
+        component:Game
     }
 ]

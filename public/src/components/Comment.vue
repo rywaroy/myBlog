@@ -108,9 +108,15 @@
                 }).then(function (res) {
                     if(res.data.state == 1){
                         Toast('评论成功');
-                        _this.$router.push({path:'/articleinfo',query:{id:_this.$route.query.id}});
                         _this.content = '';
                         _this.img = '';
+                        _this.$router.go(-1);
+                    }else{
+                        if(res.data.state == 401){
+                            plus.backLogin(_this);
+                        }else{
+                            Toast(res.data.msg)
+                        }
                     }
                 })
             },

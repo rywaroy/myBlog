@@ -6,6 +6,7 @@ var ArticleSchema = new mongoose.Schema({
     update:Date,
     content:String,
     up:{type:Number,default:0},
+    isup:{type:Boolean,default:false},
     watch:{type:Number,default:0},
 });
 

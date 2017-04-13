@@ -63,7 +63,7 @@ exports.publishImpression = function (req,res) {
                                    if(err){
                                        console.log(err)
                                    }else{
-                                       console.log(docs)
+                                       //console.log(docs)
                                        for(var i in datas){
                                            for (var j in docs){
                                                if(datas[i]._id == docs[j]._id){

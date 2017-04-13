@@ -1,4 +1,5 @@
-
+import {Toast} from 'mint-ui';
+import axios from 'axios';
 var plus = {};
 plus.path = 'http://192.168.31.156:3000';
 // plus.path = 'http://localhost:3000';
@@ -8,13 +9,13 @@ plus.back = function () {
     document.getElementById('main').style.webkitTransform = "translate3d(0px, 0px, 0px) scale(1)";
     document.querySelector('.mask').style.display = 'none';
 }
-plus.set_font=function (num) {
+plus.set_font = function (num) {
 
     // 计算、转换布局单位
     var html = document.getElementsByTagName('html')[0];
     var designFontSize = 100;
     var designWidth = 640;
-    if(num){
+    if (num) {
         designWidth = num;
     }
 
@@ -24,6 +25,7 @@ plus.set_font=function (num) {
 
         html.style.fontSize = fontSize + 'px';
     }
+
     setFontSize();
     window.addEventListener('resize', function () {
         setFontSize();
@@ -32,9 +34,20 @@ plus.set_font=function (num) {
     return this;
 }
 plus.set_font(750);
-plus.backLogin = function () {
-
+plus.backLogin = function (_this) {
+    Toast('请重新登录');
+    _this.$router.replace({path: '/login', query: {url: _this.$route.path, query: JSON.stringify(_this.$route.query)}});
 }
 
-
+plus.laji = function () {
+    axios.post(plus.path + '/host/uplaji')
+        .then(function (res) {
+            if (res.data.state == 1) {
+                Toast({
+                    message: '博主辣鸡值+1',
+                    position: 'bottom',
+                });
+            }
+        })
+}
 export default plus;

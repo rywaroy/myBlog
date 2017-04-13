@@ -54,7 +54,7 @@ exports.signup = function (req, res) {
         if (err) {
             console.log("error :" + err);
         } else {
-            res.send(Data(1,doc,'注册成功'))
+            res.send(Data(1, doc, '注册成功'))
         }
     });
 
@@ -91,18 +91,21 @@ exports.signin = function (req, res) {
     })
 }
 
-exports.getuser = function (req,res) {
+exports.getuser = function (req, res) {
     var limit = req.body.limit;
     var page = req.body.page;
-    UserModel.find({},{phonenumber:1,token:1,vip:1,nickname:1,sex:1,creattime:1},{skip:(page-1)*limit,limit:limit},function (err,docs) {
-        if(err){
-           console.log(err)
-        }else{
-            UserModel.count({},function (err,num) {
-                if(err){
+    UserModel.find({}, {phonenumber: 1, token: 1, vip: 1, nickname: 1, sex: 1, creattime: 1}, {
+        skip: (page - 1) * limit,
+        limit: limit
+    }, function (err, docs) {
+        if (err) {
+            console.log(err)
+        } else {
+            UserModel.count({}, function (err, num) {
+                if (err) {
                     console.log(err)
-                }else{
-                    res.send(Data(1,{user:docs,total:num},'获取成功'))
+                } else {
+                    res.send(Data(1, {user: docs, total: num}, '获取成功'))
                 }
             })
 
@@ -110,24 +113,49 @@ exports.getuser = function (req,res) {
     })
 }
 
-exports.deleteuser = function (req,res) {
+exports.deleteuser = function (req, res) {
     var id = req.body.id;
-    UserModel.remove({_id:id},function (err) {
-        if (err){
+    UserModel.remove({_id: id}, function (err) {
+        if (err) {
             console.log(err)
-        }else{
-            res.send(Data(1,null,'删除成功'))
+        } else {
+            res.send(Data(1, null, '删除成功'))
         }
     })
 }
 
-exports.setvip = function (req,res) {
+exports.setvip = function (req, res) {
     var id = req.body.id;
-    UserModel.update({_id:id},{vip:true},function (err) {
-        if(err){
+    UserModel.update({_id: id}, {vip: true}, function (err) {
+        if (err) {
             console.log(err)
-        }else{
-            res.send(Data(1,null,'设置成功'))
+        } else {
+            res.send(Data(1, null, '设置成功'))
         }
     })
+}
+
+exports.getuserinfo = function (req, res) {
+    var id = req.body.id;
+    UserModel.findOne({_id: id}, function (err, doc) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(Data(1, doc, '获取成功'))
+        }
+    })
+
+}
+
+exports.upgame1 = function (req, res) {
+    var token = req.body.token;
+    var score = req.body.score;
+    UserModel.update({token: token}, {$set: {game1: score}}, function (err) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(Data(1, null, '更新成功'))
+        }
+    })
+
 }

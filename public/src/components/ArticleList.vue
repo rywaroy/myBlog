@@ -16,10 +16,6 @@
             </mt-loadmore>
         </div>
     </div>
-    <!--<div class="article-main">-->
-        <!--<blog-header title="文章"></blog-header>-->
-    <!---->
-    <!--</div>-->
 </template>
 <style>
     .article-li{

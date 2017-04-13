@@ -110,3 +110,22 @@ exports.sethost = function (req,res) {
         }
     })
 }
+
+exports.uplaji = function (req,res) {
+    HostModel.findOne({},function (err,doc) {
+        if(err){
+            console.log(err)
+        }else {
+            // console.log(docs)
+            var num = doc.laji;
+            num++;
+            HostModel.update({_id:doc._id},{$set:{laji:num}},function (err) {
+                if(err){
+                    console.log(err)
+                }else{
+                    res.send(Data(1,null,'提交成功'))
+                }
+            })
+        }
+    })
+}

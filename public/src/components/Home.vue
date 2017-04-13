@@ -15,8 +15,8 @@
                 <div class="home-list">
                     <home-list title="性别" content="男"></home-list>
                     <home-list title="偶像" content="周杰伦、韩寒"></home-list>
-                    <home-list title="出生年月" content="1994-03-02"></home-list>
                     <home-list title="爱好" content="睡觉"></home-list>
+                    <home-list title="辣鸡值" :content="item.laji"></home-list>
                     <home-impression></home-impression>
                 </div>
             </div>

@@ -10,5 +10,6 @@ var App = require('../controllers/app.js');
 HostRouter.post('/signup',Host.phone,Host.nick,Host.signup);
 HostRouter.post('/signin',Host.signin);
 HostRouter.get('/gethost',Host.gethost);
-HostRouter.post('/gethost',App.hosttoken,Host.sethost)
+HostRouter.post('/gethost',App.hosttoken,Host.sethost);
+HostRouter.post('/uplaji',Host.uplaji);
 module.exports = HostRouter;

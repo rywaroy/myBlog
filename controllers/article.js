@@ -58,7 +58,7 @@ exports.articleinfo = function (req,res){
 		if (err) {
             console.log("error :" + err);
         } else {
-			console.log(doc)
+			//console.log(doc)
 			var num = doc.watch;
 
 			num++;
@@ -105,7 +105,7 @@ exports.articleup = function(req,res){
 					        } else {
 					            var num = doc3.up;
 					            num++;
-					            Model.ArticleModel.update({_id:id},{$set:{up:num}},function(err){
+					            Model.ArticleModel.update({_id:id},{$set:{up:num,isup:true}},function(err){
 					            	if (err) {
 					            		console.log("error :" + err);
 					            	}else{
