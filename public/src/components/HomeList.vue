@@ -16,6 +16,7 @@
     }
     .home-li-tit{
         width: 1.5rem;
+        color: #666;
     }
     .home-li-con{
         width: 5rem;

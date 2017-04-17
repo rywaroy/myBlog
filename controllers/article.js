@@ -36,7 +36,7 @@ exports.updatearticle = function (req,res) {
 exports.articlelist = function (req,res) {
     var limit = Number(req.query.limit);
     var page = req.query.page;
-    Model.ArticleModel.find().skip((page-1)*limit).limit(limit).exec(function (err,docs) {
+    Model.ArticleModel.find().skip((page-1)*limit).limit(limit).sort({_id:-1}).exec(function (err,docs) {
         if (err) {
             console.log("error :" + err);
         } else {
@@ -54,22 +54,31 @@ exports.articlelist = function (req,res) {
 
 exports.articleinfo = function (req,res){
 	var id = req.query.id;
+	var uid = req.query.uid;
 	Model.ArticleModel.findOne({_id:id},function(err,doc){
 		if (err) {
             console.log("error :" + err);
         } else {
 			//console.log(doc)
 			var num = doc.watch;
-
 			num++;
 			Model.ArticleModel.update({_id:id},{$set:{watch:num}},function (err) {
 				if(err){
                     console.log("error :" + err);
+				}
+            });
+			Model.UpModel.findOne({uid:uid,uplist:id},function (err,doc1) {
+				if(err){
+                    console.log("error :" + err);
 				}else{
+					if(doc1){
+                        doc.isup = true;
+					}else{
+                        doc.isup = false;
+					}
                     res.send(Data(1,doc,'获取成功'))
 				}
             })
-
         }
 	})
 }
@@ -85,7 +94,6 @@ exports.articleup = function(req,res){
 				if(err){
 					console.log("error :" + err);
 				}else{
-					//console.log(doc2)
 					if(doc2){
 						res.send(Data(0,null,'已经点过赞'));
 					}else{
@@ -95,8 +103,6 @@ exports.articleup = function(req,res){
 						}).save(function(err,doc){
 							if (err) {
 					            console.log("error :" + err);
-					        } else {
-					            //console.log(doc)
 					        }
 						});
 						Model.ArticleModel.findOne({_id:id},function(err,doc3){
@@ -105,7 +111,7 @@ exports.articleup = function(req,res){
 					        } else {
 					            var num = doc3.up;
 					            num++;
-					            Model.ArticleModel.update({_id:id},{$set:{up:num,isup:true}},function(err){
+					            Model.ArticleModel.update({_id:id},{$set:{up:num}},function(err){
 					            	if (err) {
 					            		console.log("error :" + err);
 					            	}else{
@@ -139,7 +145,8 @@ exports.comment = function (req,res){
 		vip:user.vip,
 		avatar:user.avatar,
 		image:image,
-		creat:Date.now()
+		creat:Date.now(),
+		userid:user._id
 	}).save(function(err,doc){
 		if (err) {
             console.log("error :" + err);

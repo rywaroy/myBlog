@@ -22,6 +22,7 @@ var CommentSchema = mongoose.Schema({
     image:{type:String,default:null},
     up:{type:Number,default:0},
     isup:{type:Boolean,default:false},
+    userid:String,
     article:{
         type:Schema.Types.ObjectId,
         ref:'article'

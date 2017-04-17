@@ -12,6 +12,8 @@ QuestionRouter.post('/putquestion',App.token,Question.putQuestion);
 
 QuestionRouter.post('/putanswer',App.token,Question.putAnswer);
 
+QuestionRouter.get('/getanswerinfo',Question.getAnswerInfo);
+
 QuestionRouter.get('/getanswer',Question.getAnswer);
 
 QuestionRouter.post('/up',App.token,Question.up);

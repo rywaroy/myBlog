@@ -7,7 +7,7 @@
                     <router-link :to="{path:'articleinfo',query:{id:list._id}}" tag="li"  v-for="list in list" class="article-li">
                         <div class="article-title">{{list.title}}</div>
                         <div class="article-info">
-                            <div class="article-time">{{list.create}}</div>
+                            <div class="article-time">{{list.time}}</div>
                             <div class="article-watch">{{list.watch}}人浏览</div>
                             <div class="article-up">{{list.up}}人点赞</div>
                         </div>
@@ -59,6 +59,7 @@
     import plus from '../public.js';
     import axios from 'axios';
     import { Toast } from 'mint-ui';
+    import moment from 'moment';
     export default{
         data(){
             return {
@@ -84,6 +85,10 @@
                 }).then(function (res) {
                     if (res.data.state == 1) {
                         if(type == 'top'){
+                            for (var i in res.data.data.list){
+                                var datas = res.data.data.list[i];
+                                datas.time = moment(datas.creat).format('YYYY-MM-DD HH:mm');
+                            }
                             _this.list = res.data.data.list;
                             _this.$refs.loadmore.onTopLoaded();
                             _this.allLoaded = false;

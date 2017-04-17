@@ -4,7 +4,7 @@ var QuestionSchema = new Schema({
     user:Object,
     content:String,
     title:String,
-    createTime:{type:Date,default:Date.now},
+    createTime:{type:Date},
 });
 var AnswerSchema = new Schema({
     user:Object,

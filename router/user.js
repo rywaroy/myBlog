@@ -21,4 +21,11 @@ UserRouter.post('/deleteuser',App.hosttoken,User.deleteuser);
 
 UserRouter.post('/vip',App.hosttoken,User.setvip);
 
+UserRouter.post('/update',App.token,User.updateUser);
+
+UserRouter.post('/like',App.token,User.like);
+
+UserRouter.post('/unlike',App.token,User.unlike);
+
+
 module.exports = UserRouter;

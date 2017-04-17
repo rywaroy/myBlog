@@ -1,8 +1,10 @@
 import {Toast} from 'mint-ui';
 import axios from 'axios';
 var plus = {};
-plus.path = 'http://192.168.31.156:3000';
+// plus.path = 'http://192.168.31.156:3000';
 // plus.path = 'http://localhost:3000';
+plus.path = 'http://www.3zsd.com';
+
 
 plus.back = function () {
     document.querySelector('.menu').classList.remove('show');

@@ -15,7 +15,8 @@ exports.putQuestion = function (req, res) {
             var QuestionEntity = new Model.QuestionModel({
                 title: title,
                 content: content,
-                user: doc
+                user: doc,
+                createTime:Date.now()
             }).save(function (err, doc) {
                 if (err) {
                     console.log("error :" + err);
@@ -31,7 +32,7 @@ exports.putQuestion = function (req, res) {
 exports.getlist = function (req, res) {
     var limit = Number(req.query.limit);
     var page = req.query.page;
-    Model.QuestionModel.find().skip((page - 1) * limit).limit(limit).exec(function (err, docs) {
+    Model.QuestionModel.find().skip((page - 1) * limit).limit(limit).sort({_id:-1}).exec(function (err, docs) {
         if (err) {
             console.log(err)
         } else {
@@ -69,7 +70,8 @@ exports.putAnswer = function (req, res) {
             var AnswerEntity = new Model.AnswerModel({
                 content: content,
                 user: doc,
-                question: id
+                question: id,
+                createTime:Date.now()
             }).save(function (err, doc) {
                 if (err) {
                     console.log("error :" + err);
@@ -85,7 +87,7 @@ exports.getAnswer = function (req, res) {
     var id = req.query.id;
     var page = req.query.page;
     var limit = Number(req.query.limit);
-    Model.AnswerModel.find({question: id}).skip((page - 1) * limit).limit(limit).exec(function (err, docs) {
+    Model.AnswerModel.find({question: id}).skip((page - 1) * limit).sort({up:-1}).limit(limit).exec(function (err, docs) {
         if (err) {
             console.log(err)
         } else {
@@ -97,6 +99,26 @@ exports.getAnswer = function (req, res) {
                 }
             })
 
+        }
+    })
+}
+
+exports.getAnswerInfo = function (req,res) {
+    var id = req.query.id;
+    var aid = req.query.aid;
+    var uid = req.query.uid;
+    Model.AnswerModel.findOne({question:id,_id:aid},function (err,doc) {
+        if(err){
+            console.log(err)
+        }else{
+            Model.UpQuestionModel.findOne({uid:uid,question:id,answer:aid},function (err,doc2) {
+                if(doc2){
+                    doc.isUp = true
+                }else{
+                    doc.isUp = false;
+                }
+                res.send(Data(1,doc,'获取成功'));
+            })
         }
     })
 }
@@ -165,7 +187,6 @@ exports.down = function (req, res) {
                 if (err) {
                     console.log(err)
                 } else {
-                    console.log(doc1)
                     if (doc1) {
                         Model.UpQuestionModel.remove({uid: doc._id, question: id, answer: aid}, function (err, doc3) {
                             if (err) {

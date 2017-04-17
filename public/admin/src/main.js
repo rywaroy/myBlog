@@ -12,9 +12,10 @@ Vue.use(ElementUI);
 Vue.use(VueQuillEditor)
 
 const router = new VueRouter({
-    hashbang: true,
-    history: true,
-    scrollBehavior: () => ({ y: 0 }),
+    // hashbang: true,
+    // history: true,
+    // scrollBehavior: () => ({ y: 0 }),
+    // mode: 'history',
     routes
 });
 new Vue({

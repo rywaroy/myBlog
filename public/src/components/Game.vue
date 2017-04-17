@@ -68,7 +68,7 @@
         watch: {
             time: function () {
                 var _this = this;
-                if (this.time < 0) {
+                if (this.time <= 0) {
                     //alert('游戏结束,得分：' + this.checkPoint);
                     if((this.point > this.highestRecord) && this.islogin){
                         MessageBox({
@@ -84,7 +84,7 @@
                                 _this.upScore();
                             }
                             this.point = 0;
-                            this.time = 10;
+                            this.time = 60;
                             this.render();
                         });
                     }else{

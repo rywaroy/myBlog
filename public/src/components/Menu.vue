@@ -3,8 +3,7 @@
         <div class="blog-tips">
             <div class="blog-tips-title">小提示</div>
             <div class="blog-tips-content">
-                <span class="underline">斯是陋室,惟吾德馨</span><br/>
-                谁敢说不好看？<br/>
+                <span class="underline">斯是陋室,惟吾德馨</span>谁敢说不好看？<br/>
                 不搞兼容，不解决bug<br/>
                 网页低兼容，不照顾低端安卓机<br/>
                 谈笑有鸿儒，往来无垃圾手机 <br/>
@@ -14,7 +13,7 @@
         <div class="blog-menulist">
             <div class="blog-tips-title">菜单</div>
             <ul>
-                <li :class="['blog-menulist-li',index==cur?'cur':'']" v-for="(list,index) in list" @click="go(list.url,index)">{{list.name}}<i class="mint-cell-allow-right"></i></li>
+                <li :class="['blog-menulist-li',index==cur?'cur':'']" v-for="(list,index) in list" @click="go(list.url,index)" >{{list.name}}<i class="mint-cell-allow-right"></i></li>
             </ul>
         </div>
     </div>
@@ -98,20 +97,25 @@
                     },
                     {
                         name:'问答区',
-                        url:''
+                        url:'questionlist'
                     },
                     {
-                        name:'留言区',
-                        url:''
+                        name:'留言板',
+                        url:'message'
                     },
                     {
                         name:'小游戏',
                         url:'game'
                     },
                     {
+                        name:'个人中心',
+                        url:'my'
+                    },
+                    {
                         name:'登录/注册',
                         url:'login'
                     }
+
                 ]
             }
         },

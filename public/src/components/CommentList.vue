@@ -5,16 +5,16 @@
             <mt-loadmore :top-method="loadTop" :distanceIndex="num" :autoFill="auto" :bottom-all-loaded="allLoaded" :bottom-method="loadBottom" ref="loadmore">
                 <ul>
                     <li class="comment-li" v-for="(list,index) in list">
-                        <div class="comment-li-ava" :style="{backgroundImage:'url('+list.avatar?list.avatar:'../assets/img/host_avatar.png'+')'}"></div>
+                        <div class="comment-li-ava" :style="{backgroundImage:'url('+list.avatar+')'}"></div>
                         <div class="comment-li-info">
-                            <div :class="['comment-li-name',list.vip?'vip':'']"><span>{{list.nickname}}</span></div>
+                            <div :class="['comment-li-name',list.vip?'vip':'']"><span @click.stop="goUser(list.userid)">{{list.nickname}}</span></div>
                             <div class="comment-li-time">{{list.time}}</div>
                             <div class="comment-li-content" v-if="list.commentContent">{{list.commentContent}}</div>
                             <div class="comment-li-img" v-if="list.image"><img :src="list.image" alt="" width="100%"/></div>
                             <div class="comment-reply-box" v-if="list.child.length != 0">
                                 <ul>
                                     <li class="comment-reply-li" v-for="(child,index2) in list.child" @click="replyPersonal(index,index2,$event)" v-show="index2 < 4 || list.childshow == 1">
-                                        {{child.user}} <span v-if="child.re_user">回复 {{child.re_user}}</span> : {{child.content}}</li>
+                                        <span @click.stop="goUser(child.userid)">{{child.user}} </span><span v-if="child.re_user" @click.stop="goUser(child.re_userid)">回复 {{child.re_user}}</span> : {{child.content}}</li>
                                 </ul>
                                 <div class="comment-check" v-if="list.child.length >4" @click="open(index,$event)">查看全部评论</div>
                             </div>
@@ -94,7 +94,7 @@
         bottom: .25rem;
     }
     .comment-reply-input-box{
-        position: absolute;
+        position: fixed;
         width: 100%;
         left: 0;
         bottom: 0;
@@ -136,7 +136,7 @@
     import plus from '../public.js';
     import axios from 'axios';
     import { Toast } from 'mint-ui';
-    import moment from 'moment'
+    import moment from 'moment';
     export default{
         data(){
             return{
@@ -155,6 +155,7 @@
             }
         },
         activated(){
+            this.page = 1;
             this.getComment('top');
         },
         methods:{
@@ -170,7 +171,8 @@
                     if(res.data.state == 1){
                         for (var i in res.data.data.list){
                             var datas = res.data.data.list[i];
-                            datas.time = moment(datas.creat).format('YYYY-MM-DD HH:mm:ss');
+                            datas.time = moment(datas.creat).format('MM-DD HH:mm');
+                            datas.avatar = datas.avatar?datas.avatar:'/src/assets/img/host_avatar.png'
                         }
                         if(type == 'top'){
                             _this.list = res.data.data.list;
@@ -186,22 +188,22 @@
                         }
                     }
                 })
-            },
-            link(){
+            },  //获取评论列表
+            link(){//跳往评论页面
                 if(!window.localStorage.getItem('token')){
                     Toast('请先登录');
                     return;
                 }
-                this.$router.push({path:'/comment',query:{id:this.$route.query.id}})
+                this.$router.push({path:'/comment',query:{id:this.$route.query.id,type:'1'}})
             },
             loadTop(){
                 this.page = 1;
                 this.getComment('top');
-            },
+            },  //下拉刷新
             loadBottom(){
                 this.page++;
                 this.getComment('bottom');
-            },
+            },  //上拉加载
             reply(index){  //点击回复弹出输入框
                 this.commentIndex = index;
                 this.replyShow = true;
@@ -211,7 +213,7 @@
                 this.$nextTick(function () {
                     document.querySelector('.comment-reply-input').focus();
                 })
-            },
+            },  //文章回复
             replyPersonal(index,index2,e){
                 e.currentTarget.classList.add('active');
                 var target = e.currentTarget;
@@ -226,10 +228,10 @@
                 this.$nextTick(function () {
                     document.querySelector('.comment-reply-input').focus();
                 })
-            },
+            },  //回复用户
             hideInput(){  //输入框消失
                 this.replyShow = false;
-            },
+            },  //隐藏输入框
             publishReply(e){
                 var _this = this;
                 if(e.keyCode == 13){
@@ -252,6 +254,9 @@
             open(index,e){
                 this.$set(this.list[index], 'childshow', 1);
                 e.currentTarget.style.display = 'none';
+            },  //展开评论
+            goUser(id){
+                this.$router.push({path:'/user',query:{id:id}})
             }
         }
     }

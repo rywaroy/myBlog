@@ -46,7 +46,7 @@ exports.upload = function(req, res) {
         } else {
             var avatarName = '/' + Date.now() + '.' + extName;
             var newPath = form.uploadDir + avatarName;
-            displayUrl =  'http://localhost:3000/images'+avatarName;
+            displayUrl =  'http://www.3zsd.com/images'+avatarName;
             fs.renameSync(files.upload.path, newPath); //重命名
             res.send(Data(1,{url:displayUrl},'上传成功'));
         }

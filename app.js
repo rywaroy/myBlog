@@ -10,6 +10,7 @@ var article = require('./router/article.js');
 var question = require('./router/question.js');
 var message = require('./router/message.js');
 var impression = require('./router/impression.js');
+var history = require('connect-history-api-fallback');
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -35,4 +36,5 @@ app.use('/question',question);
 app.use('/message',message);
 app.use('/impression',impression);
 
-app.listen(3000);
+app.use(history());
+app.listen(80);

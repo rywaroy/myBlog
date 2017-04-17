@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var MessageSchema = new Schema({
     user:Object,
     content:String,
-    create:{type:Date,default:Date.now}
+    image:String,
+    create:{type:Date}
 });
 module.exports = mongoose.model('message',MessageSchema);

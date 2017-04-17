@@ -93,7 +93,7 @@
                 popupVisible:false
             }
         },
-        mounted(){
+        activated(){
             this.getInfo();
         },
         methods: {
@@ -101,7 +101,8 @@
                 var _this = this;
                 axios.get(plus.path + '/article/info', {
                     params: {
-                        id: _this.$route.query.id
+                        id: _this.$route.query.id,
+                        uid:window.localStorage.getItem('id')
                     }
                 }).then(function (res) {
                     if (res.data.state == 1) {

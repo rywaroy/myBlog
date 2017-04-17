@@ -6,7 +6,7 @@ var UserModel = require('../model/user.js');
 exports.getMessage = function (req,res) {
     var limit = Number(req.query.limit);
     var page = req.query.page;
-    MessageModel.find().skip((page-1)*limit).limit(limit).exec(function (err,docs) {
+    MessageModel.find().skip((page-1)*limit).limit(limit).sort({_id:-1}).exec(function (err,docs) {
         if(err){
             console.log(err)
         }else{
@@ -24,13 +24,17 @@ exports.getMessage = function (req,res) {
 exports.putMessage = function (req,res) {
     var token = req.body.token;
     var content = req.body.content;
+    var anonymous = req.body.anonymous;
+    var image = req.body.img;
     UserModel.findOne({token:token},{nickname:1,avatar:1,vip:1,intro:1},function (err,user) {
         if(err){
             console.log(err)
         }else{
             var MessageEntity = new MessageModel({
-                user:user,
-                content:content
+                user:anonymous?'':user,
+                content:content,
+                image:image,
+                create:Date.now()
             }).save(function (err) {
                 if(err){
                     console.log(err)

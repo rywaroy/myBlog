@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var uuid = require('uuid');
 var Data = require('../returnData.js');
 var UserModel = require('../model/user.js');
+var LikeModel = require('../model/like.js');
 
 
 exports.phone = function (req, res, next) {
@@ -137,11 +138,27 @@ exports.setvip = function (req, res) {
 
 exports.getuserinfo = function (req, res) {
     var id = req.body.id;
-    UserModel.findOne({_id: id}, function (err, doc) {
+    var uid = req.body.uid;
+    UserModel.findOne({_id: id},{age:1,game1:1,hobby:1,idol:1,intro:1,like:1,nickname:1,sex:1,vip:1,islike:1},function (err, doc) {
         if (err) {
             console.log(err)
         } else {
-            res.send(Data(1, doc, '获取成功'))
+            if(doc){
+                LikeModel.findOne({myid:uid,uid:id},function (err,doc1) {
+                    if(err){
+                        console.log(err)
+                    }else{
+                        if(doc1){
+                            doc.islike = true;
+                        }else{
+                            doc.islike = false;
+                        }
+                        res.send(Data(1, doc, '获取成功'))
+                    }
+                })
+            }
+
+
         }
     })
 
@@ -158,4 +175,77 @@ exports.upgame1 = function (req, res) {
         }
     })
 
+}
+
+exports.updateUser = function (req,res) {
+    var nickname = req.body.nickname;
+    var avatar = req.body.avatar;
+    var intro = req.body.intro;
+    var age = req.body.age;
+    var idol = req.body.idol;
+    var hobby = req.body.hobby;
+    var token = req.body.token;
+    UserModel.update({token:token},{$set:{nickname:nickname,avatar:avatar,intro:intro,age:age,idol:idol,hobby:hobby}},function (err) {
+        if(err){
+            console.log(err)
+        }else{
+            res.send(Data(1,null,'更新成功'))
+        }
+    })
+}
+
+exports.like = function (req,res) {
+    var id = req.body.id;
+    var uid = req.body.uid;
+    var LikeEntity = new LikeModel({
+        myid:id,
+        uid:uid
+    }).save(function (err, doc) {
+        if (err) {
+            console.log("error :" + err);
+        } else {
+            UserModel.findOne({_id:uid},function (err,doc) {
+                if(err){
+                    console.log("error :" + err);
+                }else{
+                    var num = doc.like;
+                    num++;
+                    UserModel.update({_id:uid},{$set:{like:num}},function (err) {
+                        if(err){
+                            console.log("error :" + err);
+                        }else{
+                            res.send(Data(1, null, '喜欢'))
+                        }
+                    })
+                }
+            })
+
+        }
+    });
+}
+
+exports.unlike = function (req,res) {
+    var id = req.body.id;
+    var uid = req.body.uid;
+    LikeModel.remove({myid:id,uid:uid},function (err) {
+        if(err){
+            console.log("error :" + err);
+        }else{
+            UserModel.findOne({_id:uid},function (err,doc) {
+                if(err){
+                    console.log("error :" + err);
+                }else{
+                    var num = doc.like;
+                    num--;
+                    UserModel.update({_id:uid},{$set:{like:num}},function (err) {
+                        if(err){
+                            console.log("error :" + err);
+                        }else{
+                            res.send(Data(1, null, '不喜欢'))
+                        }
+                    })
+                }
+            })
+        }
+    })
 }

@@ -9,10 +9,14 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "jquery": "^3.2.1",
     "mint-ui": "^2.2.2",
     "moment": "^2.18.1",
+    "photoswipe": "^4.1.1",
     "vue": "^2.2.1",
-    "zepto": "^1.2.0"
+    "zepto": "^1.2.0",
+    "zhihu-particle": "^0.0.9"
   },
   "devDependencies": {
     "axios": "^0.16.0",
@@ -25,6 +29,7 @@
     "vue-loader": "^11.1.4",
     "vue-router": "^2.3.1",
     "vue-template-compiler": "^2.2.1",
+    "vuex": "^2.3.0",
     "webpack": "^2.2.0",
     "webpack-dev-server": "^2.2.0"
   }

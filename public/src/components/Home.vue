@@ -17,11 +17,12 @@
                     <home-list title="偶像" content="周杰伦、韩寒"></home-list>
                     <home-list title="爱好" content="睡觉"></home-list>
                     <home-list title="辣鸡值" :content="item.laji"></home-list>
-                    <home-impression></home-impression>
+                    <home-impression :list="list"></home-impression>
                 </div>
             </div>
 
         </div>
+        <home-pop :list="list"></home-pop>
     </div>
 </template>
 <style>
@@ -91,19 +92,23 @@
     import { Toast } from 'mint-ui';
     import HomeList from './HomeList.vue';
     import Impression from './Impression.vue';
+    import ImpressionPop from './ImpressionPop.vue';
     export default{
         data(){
             return{
                 item:{},
+                colors:['254,67,101','252,157,154','249,205,173','200,200,269','131,175,155','229,187,129','118,77,57','17,63,61','179,214,110','248,147,29','56,13,49','137,190,178','217,104,49','39,72,98','170,94,53','178,200,187','250,227,113'],
+                list:[]
             }
         },
         components: {
-
             'home-list':HomeList,
-            'home-impression':Impression
+            'home-impression':Impression,
+            'home-pop':ImpressionPop
         },
         activated(){
             this.info();
+            this.getImpression();
         },
         methods: {
             info(){
@@ -120,7 +125,23 @@
                             }
                         }
                     })
-            }
+            },
+            getImpression(){
+                var _this = this;
+                axios.get(plus.path + '/impression/get')
+                    .then(function (res) {
+                        if(res.data.state == 1){
+                            for(var i in res.data.data){
+                                var datas = res.data.data;
+                                var index = Math.floor(Math.random()*_this.colors.length);
+                                datas[i].color = _this.colors[index];
+                                datas[i].select = false;
+                            }
+                            _this.list = res.data.data;
+                            //console.log(_this.item)
+                        }
+                    })
+            },
         }
     }
 </script>
