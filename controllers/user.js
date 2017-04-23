@@ -164,6 +164,17 @@ exports.getuserinfo = function (req, res) {
 
 }
 
+exports.getMyInfo = function (req,res) {
+    var id = req.body.id;
+    UserModel.findOne({_id: id},{age:1,game1:1,hobby:1,idol:1,intro:1,like:1,nickname:1,sex:1,vip:1},function (err, doc) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(Data(1, doc, '获取成功'))
+        }
+    })
+}
+
 exports.upgame1 = function (req, res) {
     var token = req.body.token;
     var score = req.body.score;

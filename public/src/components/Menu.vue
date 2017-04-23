@@ -1,15 +1,15 @@
 <template>
     <div class="menu" id="menu">
-        <div class="blog-tips">
-            <div class="blog-tips-title">小提示</div>
-            <div class="blog-tips-content">
-                <span class="underline">斯是陋室,惟吾德馨</span>谁敢说不好看？<br/>
-                不搞兼容，不解决bug<br/>
-                网页低兼容，不照顾低端安卓机<br/>
-                谈笑有鸿儒，往来无垃圾手机 <br/>
-                /微笑
-            </div>
-        </div>
+        <!--<div class="blog-tips">-->
+            <!--<div class="blog-tips-title">小提示</div>-->
+            <!--<div class="blog-tips-content">-->
+                <!--<span class="underline">斯是陋室,惟吾德馨</span>谁敢说不好看？<br/>-->
+                <!--不搞兼容，不解决bug<br/>-->
+                <!--网页低兼容，不照顾低端安卓机<br/>-->
+                <!--谈笑有鸿儒，往来无垃圾手机 <br/>-->
+                <!--/微笑-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="blog-menulist">
             <div class="blog-tips-title">菜单</div>
             <ul>
@@ -63,6 +63,7 @@
     }
     .blog-menulist{
         padding: .3rem 0 0 .25rem;
+        margin-top: 1rem;
     }
     .blog-menulist-li{
         position: relative;

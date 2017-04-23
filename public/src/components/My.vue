@@ -55,8 +55,9 @@
             },
             getUser(){
                 var _this = this;
-                axios.post(plus.path + '/u/getuserinfo', {
-                    id:window.localStorage.getItem('id')
+                axios.post(plus.path + '/u/myinfo', {
+                    id:window.localStorage.getItem('id'),
+                    token:window.localStorage.getItem('token')
                 }).then(function (res) {
                     if (res.data.state == 1) {
                         _this.nickname = res.data.data.nickname;
@@ -69,6 +70,12 @@
                         _this.intro = res.data.data.intro;
                         _this.sex = res.data.data.sex;
                         _this.like = res.data.data.like;
+                    }else{
+                        if(res.data.state == 401){
+                            plus.backLogin(_this);
+                        }else{
+                            Toast(res.data.msg)
+                        }
                     }
                 })
             },

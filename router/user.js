@@ -27,5 +27,6 @@ UserRouter.post('/like',App.token,User.like);
 
 UserRouter.post('/unlike',App.token,User.unlike);
 
+UserRouter.post('/myinfo',App.token,User.getMyInfo);
 
 module.exports = UserRouter;
